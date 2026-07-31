@@ -54,7 +54,7 @@ export function PreviewDialog({ pages, docs, activeIndex, onNavigate, onClose }:
           <ChevronLeft className="size-6" />
         </Button>
         <div className="flex min-h-0 flex-1 items-center justify-center">
-          <div className="max-h-full rounded-sm bg-card p-1 shadow-page">
+          <div className="flex max-h-full items-center justify-center">
             <PageThumb
               key={page.id}
               docId={doc.id}
@@ -62,7 +62,7 @@ export function PreviewDialog({ pages, docs, activeIndex, onNavigate, onClose }:
               pageIndex={page.index}
               rotation={page.rotation}
               width={1400}
-              className="h-[70vh] w-[86vw] max-w-[1200px]"
+              className="h-[74vh] w-[88vw] max-w-[1280px] [&_img]:rounded-sm [&_img]:bg-card [&_img]:shadow-page"
             />
           </div>
         </div>
