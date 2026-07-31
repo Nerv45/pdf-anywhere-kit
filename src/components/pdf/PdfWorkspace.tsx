@@ -440,7 +440,7 @@ export function PdfWorkspace() {
                         bytes={doc.bytes}
                         pageIndex={page.index}
                         rotation={page.rotation}
-                        className="aspect-[4/3] w-full bg-surface p-2"
+                        className="aspect-[4/3] w-full bg-surface p-3 [&_img]:bg-card [&_img]:shadow-page"
                       />
                     </button>
 
