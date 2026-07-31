@@ -65,6 +65,7 @@ export async function buildPdf(
     const source = sources.get(item.docId);
     if (!source) continue;
     const [copied] = await out.copyPages(source, [item.index]);
+    if (!copied) continue;
     copied.setRotation(degrees(item.rotation));
     out.addPage(copied);
   }
@@ -129,10 +130,12 @@ export async function splitToSinglePages(
 
   for (let i = 0; i < pages.length; i++) {
     const item = pages[i];
+    if (!item) continue;
     const source = sources.get(item.docId);
     if (!source) continue;
     const single = await PDFDocument.create();
     const [copied] = await single.copyPages(source, [item.index]);
+    if (!copied) continue;
     copied.setRotation(degrees(item.rotation));
     single.addPage(copied);
     files.push({
