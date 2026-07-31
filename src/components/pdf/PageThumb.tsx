@@ -30,7 +30,8 @@ export function PageThumb({
       .then((result) => {
         if (active) setSrc(result.dataUrl);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Page render failed", error);
         if (active) setFailed(true);
       });
     return () => {
