@@ -1,24 +1,47 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { ClientOnly, createFileRoute } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
+import { Loader2 } from "lucide-react";
+import { Toaster } from "@/components/ui/sonner";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const PdfWorkspace = lazy(() =>
+  import("@/components/pdf/PdfWorkspace").then((m) => ({ default: m.PdfWorkspace })),
+);
+
+const title = "Plotline — Local PDF Editor: Merge, Split, Rotate";
+const description =
+  "Merge, split, reorder, rotate and number PDF pages entirely in your browser. No uploads, no servers — built for documents as wide as blueprints and maps.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+function Fallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <Loader2 className="size-5 animate-spin text-muted-foreground" />
+    </div>
+  );
+}
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      <ClientOnly fallback={<Fallback />}>
+        <Suspense fallback={<Fallback />}>
+          <PdfWorkspace />
+        </Suspense>
+      </ClientOnly>
+      <Toaster />
+    </>
   );
 }
